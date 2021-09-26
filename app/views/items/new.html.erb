@@ -1,0 +1,66 @@
+<%= render "shared/header" %>
+<div>
+  <%= form_with model:@item, method: :post, local: true do |f| %>
+    <div class="mb-3"><h1 class="display-6">商材登録</h1></div>
+    <div class="mb-1">
+    <%= f.text_field :code, id:"item-code", placeholder:"商品コード", class: "form-control"  %>
+    </div>
+    <div class="mb-1">
+    <%= f.text_field :name, id:"item-name", placeholder:"商品名", class: "form-control"  %>
+    </div>
+    <div class="mb-1">
+    <%= f.text_field :standard, id:"item-standard", placeholder:"規格", class: "form-control"  %>
+    </div>
+    <div class="mb-1">
+    <%= f.text_field :unit, id:"item-unit", placeholder:"単位", class: "form-control"  %>
+    </div>
+    <div class="mb-1">
+    <%= f.text_field :unit_price, id:"item-unit-price", placeholder:"単価", class: "form-control"  %>
+    </div>
+    <div class="mb-1">
+    <%= f.text_field :unit_labor, id:"item-unit-labor", placeholder:"歩掛", class: "form-control"  %>
+    </div>
+    <div class="mb-3">
+    <%= f.submit "登録" ,class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+<div>
+  <div class="mb-3"><h1 class="display-6">商材一覧</h1></div>
+  <% unless @items.empty? %>
+    <div class="overflow-auto">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">商品コード</th>
+            <th scope="col">商品名</th>
+            <th scope="col">規格</th>
+            <th scope="col">単位</th>
+            <th scope="col">単価</th>
+            <th scope="col">歩掛</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <% @items.each do |item|%>
+          <tbody>
+            <tr>
+              <div id="item-index", class="mb-1">
+                <td><%= item.code %></td>
+                <td><%= item.name %></td>
+                <td><%= item.standard %></td>
+                <td><%= item.unit %></td>
+                <td><%= item.unit_price %></td>
+                <td><%= item.unit_labor %></td>
+                <td><%= link_to "編集", "#", method: :get, class: "btn btn-primary" %>
+                <%= link_to "削除", item_path(item.id), method: :delete, class: "btn btn-primary" %></td>
+              </div>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+    </div>
+  <% else %>
+    <p> 商品を登録してください</p>
+  <% end %>
+</div>
+<%= render "shared/footer" %>

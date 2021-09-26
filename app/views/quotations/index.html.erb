@@ -1,0 +1,32 @@
+<%= render "shared/header" %>
+<div>
+  <div class="mb-3"><h1 class="display-6">見積一覧</h1></div>
+  <% unless @quotations.empty? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">見積書名</th>
+          <th scope="col">作成日時</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <% @quotations.each do |quotation|%>
+        <tbody>
+          <tr>
+            <div id="quotation-index", class="mb-1">
+              <td><%= quotation.id %></td>
+              <td><%= quotation.name %></td>
+              <td><%= quotation.created_at %></td>
+              <td><%= link_to "編集", "#", method: :get, class: "btn btn-primary" %>
+              <%= link_to "削除", "#", method: :delete, class: "btn btn-primary" %></td>
+            </div>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  <% else %>
+    <p> 見積書がありません</p>
+  <% end %>
+</div>
+<%= render "shared/footer" %>

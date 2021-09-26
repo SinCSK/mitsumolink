@@ -1,0 +1,160 @@
+<%= render "shared/header" %>
+<div>
+  <div class="mb-3" class="display-6"><h1>商材追加</h1></div>
+  <%= form_for [@item_quotation], url: quotation_item_quotations_path do |f| %>
+    <div class="mb-1">
+      <%= f.text_field :item_id, class: "form-control", id:"item-quotation-code", placeholder:"商品コードを入力してください" %>
+    </div>
+    <div class="mb-1">
+      <%= f.text_field :quantity, class: "form-control", id:"item-quotation-quantity", placeholder:"数量を入力してください" %>
+    </div>
+    <div class="mb-3">
+      <%= f.submit "追加" ,class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <div class="mb-3" class="display-6"><h1>見積内容</h1></div>
+  <% unless @item_quotations.empty? %>
+    <div class="overflow-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">商材コード</th>
+              <th scope="col">商品名</th>
+              <th scope="col">規格</th>
+              <th scope="col">数量</th>
+              <th scope="col">単位</th>
+              <th scope="col">単価</th>
+              <th scope="col">金額</th>
+              <th scope="col">歩掛</th>
+              <th scope="col">工数</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <% t_price = 0 %>
+          <% t_labor = 0 %>
+          <% @item_quotations.each do |item|%>
+            <tbody>
+              <tr>
+                <div id="item-index", class="mb-1">
+                  <td><%= item.item.code %></td>
+                  <td><%= item.item.name %></td>
+                  <td><%= item.item.standard %></td>
+                  <td><%= item.quantity %></td>
+                  <td><%= item.item.unit %></td>
+                  <td><%= item.item.unit_price %></td>
+                  <% price = item.quantity * item.item.unit_price.to_i %> 
+                  <td><%= price.to_i %></td>
+                  <td><%= item.item.unit_labor %></td>
+                  <% labor = item.quantity.to_i * item.item.unit_labor.to_f %>
+                  <td><%= labor %></td>
+                  <td><%= link_to "削除", "#", method: :delete, class: "btn btn-primary" %></td>
+                </div>
+              </tr>
+            </tbody>
+            <% t_price += price %>
+            <% t_labor += labor %>
+          <% end %>
+          <thead>
+            <tr>
+              <td scope="col"></td>
+              <td scope="col">労　務　費</td>
+              <td scope="col"></td>
+              <td scope="col"><%= t_labor %></td>
+              <td scope="col">人工</td>
+              <td scope="col">20000</td>
+              <% labor_price = t_labor * 20000 %>
+              <td scope="col"><%= labor_price.to_i %></td>
+              <td scope="col"></td>
+              <td scope="col"></td>
+              <td scope="col"></td>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">合　　　計</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <% t_price += labor_price.to_i %>
+              <th scope="col"><%= t_price.to_i  %></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">消　費　税</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <% tax = t_price * 0.1 %>
+              <th scope="col"><%= tax.to_i  %></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">総　合　計</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <% t_price += tax.to_i %>
+              <th scope="col"><%= t_price.to_i  %></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+  <% else %>
+    <p> 商材を選択してください</p>
+  <% end %>
+
+  <div class="mb-3"><h1 class="display-6">商材一覧</h1></div>
+    <% unless @items.empty? %>
+      <div class="overflow-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">商材コード</th>
+              <th scope="col">商品名</th>
+              <th scope="col">規格</th>
+              <th scope="col">単位</th>
+              <th scope="col">単価</th>
+              <th scope="col">歩掛</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <% @items.each do |item|%>
+            <tbody>
+              <tr>
+                <div id="item-index", class="mb-1">
+                  <td><%= item.code %></td>
+                  <td><%= item.name %></td>
+                  <td><%= item.standard %></td>
+                  <td><%= item.unit %></td>
+                  <td><%= item.unit_price %></td>
+                  <td><%= item.unit_labor %></td>
+                  <%# <td><%= link_to "追加", quotations_path(item.id), method: :post, class: "btn btn-primary" %>
+                  <%# <%= link_to "編集", "#", class: "btn btn-primary" %>
+              </tr>
+            </tbody>
+          <% end %>
+        </table>
+      </div>
+    <% else %>
+      <p> 商材が登録されていません</p>
+    <% end %>
+</div>
+<%= render "shared/footer" %>

@@ -10,6 +10,7 @@
 ### アソシエーション
 has_many :items
 has_many :quotations
+has_many :item_quotations
 
 ## itemsテーブル
 | Column                | Type        | Options                        |
@@ -23,21 +24,27 @@ has_many :quotations
 
 ### アソシエーション
 belongs_to :user
-has_many :quotations
+has_many :item_quotations
 
 ## quotationsテーブル
 | Column                | Type        | Options                        |
 | --------------------- | ----------- | ------------------------------ |
 | name                  | string      | null: false                    |
+| user                  | references  | null: false, foreign_key: true |
+
+### アソシエーション
+belongs_to :user
+has_many :item_quotations
+
+## item_quotationsテーブル
+| Column                | Type        | Options                        |
+| --------------------- | ----------- | ------------------------------ |
 | quantity              | integer     | null: false                    |
-| standard              | integer     | null: false                    |
-| price                 | integer     | null: false                    |
-| labor                 | integer     | null: false                    |
 | user                  | references  | null: false, foreign_key: true |
 | item                  | references  | null: false, foreign_key: true |
 
 ### アソシエーション
-belongs_to :user
+belongs_to :quotation
 belongs_to :item
 
 # アプリケーションについて

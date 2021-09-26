@@ -4,4 +4,5 @@ class User < ApplicationRecord
 
   has_many :items
   has_many :quotations
+  has_many :item_quotations
 end

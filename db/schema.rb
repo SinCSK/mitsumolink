@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_13_015042) do
+ActiveRecord::Schema.define(version: 2021_09_17_090039) do
+
+  create_table "item_quotations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.float "quantity", null: false
+    t.bigint "item_id", null: false
+    t.bigint "quotation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_item_quotations_on_item_id"
+    t.index ["quotation_id"], name: "index_item_quotations_on_quotation_id"
+  end
 
   create_table "items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "code", null: false
     t.string "name", null: false
     t.string "standard", null: false
     t.string "unit", null: false
@@ -26,15 +37,9 @@ ActiveRecord::Schema.define(version: 2021_09_13_015042) do
 
   create_table "quotations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "quantity", null: false
-    t.integer "standard", null: false
-    t.integer "price", null: false
-    t.integer "labor", null: false
     t.bigint "user_id", null: false
-    t.bigint "item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["item_id"], name: "index_quotations_on_item_id"
     t.index ["user_id"], name: "index_quotations_on_user_id"
   end
 
@@ -51,7 +56,8 @@ ActiveRecord::Schema.define(version: 2021_09_13_015042) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "item_quotations", "items"
+  add_foreign_key "item_quotations", "quotations"
   add_foreign_key "items", "users"
-  add_foreign_key "quotations", "items"
   add_foreign_key "quotations", "users"
 end
