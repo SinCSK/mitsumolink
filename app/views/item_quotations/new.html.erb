@@ -48,7 +48,7 @@
                   <td><%= item.item.unit_labor %></td>
                   <% labor = item.quantity.to_i * item.item.unit_labor.to_f %>
                   <td><%= labor %></td>
-                  <td><%= link_to "削除", "#", method: :delete, class: "btn btn-primary" %></td>
+                  <td><%= link_to "削除", "#" , method: :delete, class: "btn btn-primary" %></td>
                 </div>
               </tr>
             </tbody>
