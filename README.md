@@ -1,73 +1,13 @@
-# テーブル設計
-
-## usersテーブル
-| Column                | Type        | Options                        |
-| --------------------- | ----------- | ------------------------------ |
-| name                  | string      | null: false                    |
-| email                 | string      | null: false, unique: true      |
-| encrypted_password    | string      | null: false                    |
-
-### アソシエーション
-has_many :items
-has_many :quotations
-has_many :item_quotations
-
-## itemsテーブル
-| Column                | Type        | Options                        |
-| --------------------- | ----------- | ------------------------------ |
-| name                  | string      | null: false                    |
-| standard              | string      | null: false                    |
-| unit                  | string      | null: false                    |
-| unit_price            | integer     | null: false                    |
-| unit_labor            | integer     | null: false                    |
-| user                  | references  | null: false, foreign_key: true |
-
-### アソシエーション
-belongs_to :user
-has_many :item_quotations
-
-## quotationsテーブル
-| Column                | Type        | Options                        |
-| --------------------- | ----------- | ------------------------------ |
-| name                  | string      | null: false                    |
-| user                  | references  | null: false, foreign_key: true |
-
-### アソシエーション
-belongs_to :user
-has_many :item_quotations
-
-## item_quotationsテーブル
-| Column                | Type        | Options                        |
-| --------------------- | ----------- | ------------------------------ |
-| quantity              | integer     | null: false                    |
-| user                  | references  | null: false, foreign_key: true |
-| item                  | references  | null: false, foreign_key: true |
-
-### アソシエーション
-belongs_to :quotation
-belongs_to :item
-
-# アプリケーションについて
-
 ## アプリケーション名:
-### Make a quote
+### MitsumoLink
 
-## アプリケーション概要:
-### どこからでも見積書が作成できるソフト
+## アプリケーション概要：
+### どこでも見積書を作成するためのアプリケーションとなります。
+### 商品とその単価を登録し、見積金額に誤りをなくすことを目的としています。
 
-## URL:
-### まだ未設定
-
-## テスト用アカウント:
-### まだ未設定
-
-## 利用方法:
-### 商品と顧客情報を登録し、見積作成の際は、登録した商品と顧客情報を使って見積を作成する。
-
-## 目指した課題解決:
-### 建設業の方々は必要な材料などを現地で調査し、事務所に戻ってから見積を作成する。
-### また、担当者ごとによって材料の単価が異なるため、見積金額が異なることがある。
-### 上記２点を解決するために材料と単価を登録し、web上で見積を作成するアプリの開発を目指した。
+## 制作背景：
+### 前職で建設業の方と話す機会が多く、その際に材料の金額がよく変動するため、同時期に作成した見積もりであっても作成者ごとに見積金額が異なることが多々あるという話を聞いていました。
+### そのため、材料と単価を一括で管理できるデータベースを作成し、そこから材料を選択することによって作成者ごとに誤差が出ないようなアプリケーショを作成しようと考えました。
 
 ## 洗い出した要件:
 ### 見積作成機能
